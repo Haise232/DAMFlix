@@ -5,6 +5,10 @@ Formulario para registrar una película, hecho con **Jetpack Compose** (Kotlin) 
 > Esta rama (`parte2`) contiene la segunda actividad del proyecto.
 > La primera actividad (pantalla de perfil de usuario) está en la rama [`main`](https://github.com/Haise232/DAMFlix/tree/main).
 
+## Captura
+
+![Captura de DAMFlix - Registrar Película](docs/Captura%20Proyecto.png)
+
 ## Qué hace
 
 - **Campos de texto** (`OutlinedTextField`) con etiqueta y placeholder para:
