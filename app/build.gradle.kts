@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.damflix"
+    namespace = "com.example.damflix4"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.damflix"
+        applicationId = "com.example.damflix4"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
@@ -22,8 +22,7 @@ android {
     buildTypes {
         release {
             optimization {
-                enable = true
-                packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
+                enable = false
             }
         }
     }
@@ -42,6 +41,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
