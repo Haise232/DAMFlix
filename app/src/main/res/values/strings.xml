@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">DAMFlix</string>
+    <string name="app_name">DAMFlix4</string>
+    <string name="avatar_description">Avatar del usuario</string>
+    <string name="user_name">Joaquin</string>
+    <string name="user_role">Crítico de Cine</string>
+    <plurals name="stat_vistas">
+        <item quantity="one">%1$d Película Vista</item>
+        <item quantity="other">%1$d Películas Vistas</item>
+    </plurals>
+    <plurals name="stat_favoritas">
+        <item quantity="one">%1$d Favorita</item>
+        <item quantity="other">%1$d Favoritas</item>
+    </plurals>
 </resources>

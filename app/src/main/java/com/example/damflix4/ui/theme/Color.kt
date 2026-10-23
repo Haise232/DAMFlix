@@ -1,4 +1,4 @@
-package com.example.damflix.ui.theme
+package com.example.damflix4.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
