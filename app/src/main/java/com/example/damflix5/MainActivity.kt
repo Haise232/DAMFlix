@@ -1,6 +1,5 @@
-package com.example.damflix4
+package com.example.damflix5
 
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,32 +16,43 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.damflix4.model.Pelicula
-import com.example.damflix4.model.peliculasIniciales
-import com.example.damflix4.navigation.Ruta
-import com.example.damflix4.ui.screens.Formulario
-import com.example.damflix4.ui.screens.ListaPeliculas
-import com.example.damflix4.ui.screens.PantallaInicio
-import com.example.damflix4.ui.screens.Perfil
-import com.example.damflix4.ui.theme.DAMFlix4Theme
+import com.example.damflix5.data.DAMFlixDbHelper
+import com.example.damflix5.data.PeliculaRepository
+import com.example.damflix5.navigation.Ruta
+import com.example.damflix5.ui.screens.FormularioAgregarPeliculaScreen
+import com.example.damflix5.ui.screens.ListaPeliculasScreen
+import com.example.damflix5.ui.screens.PantallaInicio
+import com.example.damflix5.ui.screens.Perfil
+import com.example.damflix5.ui.theme.DAMFlix5Theme
+import com.example.damflix5.ui.viewmodel.PeliculaViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            DAMFlix4Theme {
-                DAMFlixApp()
+            DAMFlix5Theme {
+                // El ViewModel recibe el repositorio, así que se crea con una factory
+                val peliculaViewModel: PeliculaViewModel = viewModel(
+                    factory = viewModelFactory {
+                        initializer {
+                            PeliculaViewModel(PeliculaRepository(DAMFlixDbHelper(applicationContext)))
+                        }
+                    }
+                )
+                DAMFlixApp(peliculaViewModel)
             }
         }
     }
@@ -57,16 +67,16 @@ private val rutasBottomBar = listOf(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DAMFlixApp() {
+fun DAMFlixApp(peliculaViewModel: PeliculaViewModel) {
     val navController = rememberNavController()
-    val peliculas = remember { mutableStateListOf(*peliculasIniciales.toTypedArray()) }
+    val peliculas by peliculaViewModel.listaPeliculas.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "DAMFlix - Catálogo",
+                        text = stringResource(R.string.titulo_app),
                         fontWeight = FontWeight.Bold,
                     )
                 },
@@ -82,6 +92,7 @@ fun DAMFlixApp() {
 
             NavigationBar {
                 rutasBottomBar.forEach { ruta ->
+                    val etiqueta = stringResource(ruta.label)
                     NavigationBarItem(
                         selected = rutaActual == ruta.path,
                         onClick = {
@@ -89,8 +100,8 @@ fun DAMFlixApp() {
                                 navController.navegarAPestana(ruta)
                             }
                         },
-                        icon = { Icon(ruta.icon, contentDescription = ruta.label) },
-                        label = { Text(ruta.label) }
+                        icon = { Icon(ruta.icon, contentDescription = etiqueta) },
+                        label = { Text(etiqueta) }
                     )
                 }
             }
@@ -110,30 +121,17 @@ fun DAMFlixApp() {
                 )
             }
             composable(Ruta.Listado.path) {
-                ListaPeliculas(
-                    peliculas = peliculas,
-                    onToggleFavorito = { pelicula ->
-                        val index = peliculas.indexOfFirst { it.id == pelicula.id }
-                        if (index != -1) {
-                            peliculas[index] = peliculas[index].copy(
-                                esFavorita = !peliculas[index].esFavorita
-                            )
-                        }
-                    }
-                )
+                ListaPeliculasScreen(viewModel = peliculaViewModel)
             }
             composable(Ruta.Formulario.path) {
-                Formulario(
-                    onGuardar = { titulo, director, genero, anyo, descripcion, vista ->
-                        val nuevoId = (peliculas.maxOfOrNull { it.id } ?: 0) + 1
-                        peliculas.add(Pelicula(nuevoId, titulo, director, genero, anyo, descripcion, vista))
-                        navController.navegarAPestana(Ruta.Listado)
-                    }
+                FormularioAgregarPeliculaScreen(
+                    viewModel = peliculaViewModel,
+                    onPeliculaGuardada = { navController.navegarAPestana(Ruta.Listado) }
                 )
             }
             composable(Ruta.Perfil.path) {
                 Perfil(
-                    totalVistas = peliculas.count { it.vista },
+                    totalVistas = peliculas.count { it.esVista },
                     totalFavoritas = peliculas.count { it.esFavorita }
                 )
             }
@@ -148,21 +146,5 @@ private fun NavHostController.navegarAPestana(ruta: Ruta) {
         }
         launchSingleTop = true
         restoreState = true
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun DAMFlixAppPreview() {
-    DAMFlix4Theme {
-        DAMFlixApp()
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun DAMFlixAppDarkPreview() {
-    DAMFlix4Theme {
-        DAMFlixApp()
     }
 }

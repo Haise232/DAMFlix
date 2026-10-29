@@ -1,4 +1,4 @@
-package com.example.damflix4.ui.screens
+package com.example.damflix5.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,11 +17,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.damflix4.ui.theme.DAMFlix4Theme
+import com.example.damflix5.R
+import com.example.damflix5.ui.theme.DAMFlix5Theme
 
 @Composable
 fun PantallaInicio(
@@ -39,14 +41,14 @@ fun PantallaInicio(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Bienvenido a DAMFlix",
+            text = stringResource(R.string.inicio_bienvenida),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Tu catálogo personal de películas",
+            text = stringResource(R.string.inicio_subtitulo),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
@@ -56,16 +58,16 @@ fun PantallaInicio(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            TarjetaEstadistica(titulo = "Películas", valor = totalPeliculas, modifier = Modifier.weight(1f))
-            TarjetaEstadistica(titulo = "Favoritas", valor = totalFavoritas, modifier = Modifier.weight(1f))
+            TarjetaEstadistica(titulo = stringResource(R.string.inicio_peliculas), valor = totalPeliculas, modifier = Modifier.weight(1f))
+            TarjetaEstadistica(titulo = stringResource(R.string.inicio_favoritas), valor = totalFavoritas, modifier = Modifier.weight(1f))
         }
 
         Spacer(modifier = Modifier.height(24.dp))
         Button(onClick = onVerCatalogo, modifier = Modifier.fillMaxWidth()) {
-            Text("Ver catálogo")
+            Text(stringResource(R.string.inicio_ver_catalogo))
         }
         OutlinedButton(onClick = onAnadir, modifier = Modifier.fillMaxWidth()) {
-            Text("Añadir película")
+            Text(stringResource(R.string.inicio_anadir))
         }
     }
 }
@@ -97,15 +99,15 @@ fun TarjetaEstadistica(titulo: String, valor: Int, modifier: Modifier = Modifier
 @Preview(showBackground = true)
 @Composable
 fun TarjetaEstadisticaPreview() {
-    DAMFlix4Theme {
-        TarjetaEstadistica(titulo = "Películas", valor = 8)
+    DAMFlix5Theme {
+        TarjetaEstadistica(titulo = stringResource(R.string.inicio_peliculas), valor = 8)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PantallaInicioPreview() {
-    DAMFlix4Theme {
+    DAMFlix5Theme {
         PantallaInicio(totalPeliculas = 8, totalFavoritas = 2, onVerCatalogo = {}, onAnadir = {})
     }
 }
