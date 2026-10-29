@@ -1,4 +1,4 @@
-package com.example.damflix4.ui.screens
+package com.example.damflix5.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,16 +22,35 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.damflix4.model.Pelicula
-import com.example.damflix4.model.peliculasIniciales
-import com.example.damflix4.ui.theme.DAMFlix4Theme
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.damflix5.R
+import com.example.damflix5.model.Pelicula
+import com.example.damflix5.model.peliculasIniciales
+import com.example.damflix5.ui.theme.DAMFlix5Theme
+import com.example.damflix5.ui.viewmodel.PeliculaViewModel
+
+@Composable
+fun ListaPeliculasScreen(
+    viewModel: PeliculaViewModel,
+    modifier: Modifier = Modifier,
+) {
+    val peliculas by viewModel.listaPeliculas.collectAsStateWithLifecycle()
+
+    ListaPeliculas(
+        peliculas = peliculas,
+        onToggleFavorito = { pelicula -> viewModel.conmutarFavorito(pelicula) },
+        modifier = modifier
+    )
+}
 
 @Composable
 fun ListaPeliculas(
@@ -41,7 +60,7 @@ fun ListaPeliculas(
 ) {
     if (peliculas.isEmpty()) {
         Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("No hay películas en el catálogo")
+            Text(stringResource(R.string.lista_vacia))
         }
         return
     }
@@ -94,7 +113,9 @@ fun TarjetaPeliculaGrid(
             ) {
                 Icon(
                     imageVector = if (pelicula.esFavorita) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                    contentDescription = if (pelicula.esFavorita) "Quitar de favoritos" else "Marcar como favorita",
+                    contentDescription = stringResource(
+                        if (pelicula.esFavorita) R.string.quitar_favorito else R.string.marcar_favorito
+                    ),
                     tint = if (pelicula.esFavorita) Color.Red else Color.Gray
                 )
             }
@@ -114,12 +135,12 @@ fun TarjetaPeliculaGrid(
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = "${pelicula.genero} • ${pelicula.anyo}",
+                text = stringResource(R.string.genero_anio, pelicula.genero, pelicula.anio),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
-                text = if (pelicula.vista) "Vista" else "Pendiente",
+                text = stringResource(if (pelicula.esVista) R.string.estado_vista else R.string.estado_pendiente),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.secondary
             )
@@ -130,7 +151,7 @@ fun TarjetaPeliculaGrid(
 @Preview(showBackground = true, widthDp = 180)
 @Composable
 fun TarjetaPeliculaGridPreview() {
-    DAMFlix4Theme {
+    DAMFlix5Theme {
         TarjetaPeliculaGrid(pelicula = peliculasIniciales.first(), onFavoritoClick = {})
     }
 }
@@ -138,7 +159,7 @@ fun TarjetaPeliculaGridPreview() {
 @Preview(showBackground = true, widthDp = 180)
 @Composable
 fun TarjetaPeliculaGridFavoritaPreview() {
-    DAMFlix4Theme {
+    DAMFlix5Theme {
         TarjetaPeliculaGrid(pelicula = peliculasIniciales.first().copy(esFavorita = true), onFavoritoClick = {})
     }
 }
@@ -146,7 +167,7 @@ fun TarjetaPeliculaGridFavoritaPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ListaPeliculasVaciaPreview() {
-    DAMFlix4Theme {
+    DAMFlix5Theme {
         ListaPeliculas(peliculas = emptyList(), onToggleFavorito = {})
     }
 }
@@ -154,7 +175,7 @@ fun ListaPeliculasVaciaPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ListaPeliculasPreview() {
-    DAMFlix4Theme {
+    DAMFlix5Theme {
         ListaPeliculas(peliculas = peliculasIniciales, onToggleFavorito = {})
     }
 }

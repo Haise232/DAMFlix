@@ -1,46 +1,48 @@
-# DAMFlix — Parte 4: Navegación entre pantallas
+# DAMFlix — Parte 5: Persistencia local con SQLite y MVVM
 
-App de catálogo de películas con varias pantallas conectadas mediante **Navigation Compose** y una barra de navegación inferior, hecha con **Jetpack Compose** (Kotlin) para Android.
+App de catálogo de películas hecha con **Jetpack Compose** (Kotlin) para Android. En esta fase la lista de películas deja de estar en memoria y se guarda en una base de datos **SQLite** del móvil, usando la arquitectura **MVVM**.
 
-> Esta rama (`parte4`) contiene la cuarta actividad del proyecto.
+> Esta rama (`parte5`) contiene la quinta actividad del proyecto.
 > - La primera actividad (pantalla de perfil de usuario) está en la rama [`main`](https://github.com/Haise232/DAMFlix/tree/main).
 > - La segunda actividad (formulario Registrar Película) está en la rama [`parte2`](https://github.com/Haise232/DAMFlix/tree/parte2).
 > - La tercera actividad (catálogo de películas con favoritos) está en la rama [`parte3`](https://github.com/Haise232/DAMFlix/tree/parte3).
+> - La cuarta actividad (navegación entre pantallas) está en la rama [`parte4`](https://github.com/Haise232/DAMFlix/tree/parte4).
 
 ## Qué hace
 
-- **Navegación** con `NavHost` y `rememberNavController()`: cuatro pantallas (Inicio, Listado, Añadir y Perfil).
-- **Rutas tipadas** con una `sealed class Ruta`: cada ruta guarda su `path`, su etiqueta y su icono.
-- **Barra inferior** (`NavigationBar` + `NavigationBarItem`) que marca la pestaña activa leyendo `currentBackStackEntryAsState()`.
-- **Navegación entre pestañas** con `popUpTo(startDestination) { saveState = true }`, `launchSingleTop` y `restoreState`, para no apilar pantallas repetidas y conservar el estado de cada pestaña.
-- **Estado compartido:** la lista de películas vive en `DAMFlixApp()` (`mutableStateListOf`) y se pasa a cada pantalla, así lo que se añade o se marca como favorito se ve en todas.
-- **Pantalla de inicio** con un resumen (total de películas y favoritas) y botones para ir al catálogo o añadir una película.
-- **Listado en cuadrícula** con `LazyVerticalGrid` de 2 columnas: cada tarjeta muestra la inicial del título, director, género, año, si está vista o pendiente, y el botón de favorito.
-- **Formulario** para registrar películas: valida que título, director y género no estén vacíos y que el año sea válido (1888–2100). Al guardar, la película se añade al catálogo y se navega al listado.
-- **Perfil** con avatar, nombre, rol y estadísticas de películas vistas y favoritas (con `pluralStringResource`).
-- **Vistas previas** en modo claro y oscuro.
+- **Base de datos SQLite** (`damflix_native.db`) con `SQLiteOpenHelper` (`DAMFlixDbHelper`): crea la tabla `peliculas` y controla la versión de la BD. La primera vez que se crea se rellenan las películas de ejemplo.
+- **Repositorio** (`PeliculaRepository`) con las consultas a la BD:
+  - `obtenerTodas()`: `SELECT` con `rawQuery` y lectura manual del `Cursor`.
+  - `insertar()` y `actualizar()`: `INSERT` y `UPDATE` con `ContentValues`.
+- **Corrutinas:** todas las operaciones del repositorio van dentro de `withContext(Dispatchers.IO)` para no bloquear el hilo principal.
+- **ViewModel** (`PeliculaViewModel`): recibe el repositorio por constructor, guarda la lista en un `MutableStateFlow` y la expone como `StateFlow` (`listaPeliculas`). Después de `agregarPelicula()` o `conmutarFavorito()` llama a `cargarPeliculas()` para que la pantalla se actualice.
+- **Compose:** `ListaPeliculasScreen` y `FormularioAgregarPeliculaScreen` reciben el ViewModel. El listado observa el estado con `collectAsStateWithLifecycle()` y el formulario llama a `agregarPelicula()` al guardar.
+- **Los datos se mantienen** aunque se cierre la app: las películas añadidas y las favoritas siguen ahí al volver a abrirla.
+- **Sin textos hardcodeados:** todos los textos de la interfaz están en `strings.xml` y se usan con `stringResource()` (también las etiquetas de la barra inferior, que ahora son `@StringRes`).
+- Se mantiene la navegación de la parte 4 (`NavHost` + `NavigationBar`).
 
 ## Estructura del código
 
 | Archivo / elemento | Función |
 |---|---|
-| `MainActivity` | Carga el tema `DAMFlix4Theme` y la app |
-| `DAMFlixApp()` | `Scaffold` con la `TopAppBar`, la `NavigationBar` y el `NavHost`; guarda la lista de películas |
-| `navegarAPestana()` | Extensión de `NavHostController` para cambiar de pestaña sin duplicar pantallas |
-| `navigation/Ruta.kt` | `sealed class` con las rutas `Inicio`, `Listado`, `Formulario` y `Perfil` |
-| `model/Pelicula.kt` | `data class Pelicula` y la lista `peliculasIniciales` |
-| `ui/screens/PantallaInicio.kt` | Pantalla de bienvenida con estadísticas y accesos rápidos |
-| `ui/screens/ListaPeliculas.kt` | Cuadrícula de películas y `TarjetaPeliculaGrid()` |
-| `ui/screens/Formulario.kt` | Formulario para registrar una película nueva |
-| `ui/screens/Perfil.kt` | Perfil del usuario con sus estadísticas |
+| `MainActivity` | Crea el ViewModel (con su factory) y `DAMFlixApp()` con el `Scaffold`, la barra inferior y el `NavHost` |
+| `data/DAMFlixDbHelper.kt` | `SQLiteOpenHelper`: `CREATE TABLE`, datos iniciales y `onUpgrade` |
+| `data/PeliculaRepository.kt` | Consultas SQL (`SELECT`, `INSERT`, `UPDATE`) con `Dispatchers.IO` |
+| `ui/viewmodel/PeliculaViewModel.kt` | `ViewModel` con el `StateFlow` de películas |
+| `navigation/Ruta.kt` | `sealed class` con las rutas de la app |
+| `model/Pelicula.kt` | `data class Pelicula` y las películas de ejemplo |
+| `ui/screens/ListaPeliculasScreen.kt` | Cuadrícula de películas conectada al ViewModel |
+| `ui/screens/FormularioAgregarPeliculaScreen.kt` | Formulario de alta que guarda en SQLite |
+| `ui/screens/PantallaInicio.kt`, `Perfil.kt` | Inicio con estadísticas y perfil del usuario |
 
 ## Tecnologías
 
 - Kotlin
-- Jetpack Compose
-- Material 3
+- Jetpack Compose + Material 3
 - Navigation Compose
-- Material Icons (`material-icons-core` y `material-icons-extended`)
+- SQLite (`SQLiteOpenHelper`, `Cursor`, `ContentValues`)
+- Corrutinas de Kotlin
+- ViewModel y `StateFlow` (`lifecycle-viewmodel-compose`, `lifecycle-runtime-compose`)
 
 ## Cómo ejecutarlo
 
@@ -48,8 +50,9 @@ App de catálogo de películas con varias pantallas conectadas mediante **Naviga
    ```bash
    git clone https://github.com/Haise232/DAMFlix.git
    cd DAMFlix
-   git checkout parte4
+   git checkout parte5
    ```
 2. Ábrelo con Android Studio.
 3. Espera a que termine la sincronización de Gradle.
-4. Pulsa **Run** en un emulador o dispositivo, o abre los `@Preview` de `MainActivity.kt`.
+4. Pulsa **Run** en un emulador o dispositivo.
+5. Para ver la base de datos: **App Inspection > Database Inspector** con la app en marcha.

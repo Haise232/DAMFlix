@@ -1,5 +1,46 @@
 <resources>
-    <string name="app_name">DAMFlix4</string>
+    <string name="app_name">DAMFlix5</string>
+    <string name="titulo_app">DAMFlix - Catálogo</string>
+
+    <!-- Navegación -->
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_listado">Listado</string>
+    <string name="nav_anadir">Añadir</string>
+    <string name="nav_perfil">Perfil</string>
+
+    <!-- Pantalla de inicio -->
+    <string name="inicio_bienvenida">Bienvenido a DAMFlix</string>
+    <string name="inicio_subtitulo">Tu catálogo personal de películas</string>
+    <string name="inicio_peliculas">Películas</string>
+    <string name="inicio_favoritas">Favoritas</string>
+    <string name="inicio_ver_catalogo">Ver catálogo</string>
+    <string name="inicio_anadir">Añadir película</string>
+
+    <!-- Listado -->
+    <string name="lista_vacia">No hay películas en el catálogo</string>
+    <string name="quitar_favorito">Quitar de favoritos</string>
+    <string name="marcar_favorito">Marcar como favorita</string>
+    <string name="genero_anio">%1$s • %2$d</string>
+    <string name="estado_vista">Vista</string>
+    <string name="estado_pendiente">Pendiente</string>
+
+    <!-- Formulario -->
+    <string name="form_titulo">Registrar Película</string>
+    <string name="form_label_titulo">Título de la película</string>
+    <string name="form_hint_titulo">Ej: Interstellar</string>
+    <string name="form_label_director">Director/a</string>
+    <string name="form_hint_director">Ej: Christopher Nolan</string>
+    <string name="form_label_genero">Género</string>
+    <string name="form_hint_genero">Ej: Ciencia Ficción</string>
+    <string name="form_label_anio">Año de estreno</string>
+    <string name="form_hint_anio">Ej. 2014</string>
+    <string name="form_error_anio">Introduce un año válido</string>
+    <string name="form_label_descripcion">Descripción</string>
+    <string name="form_vista">Película vista</string>
+    <string name="form_pendiente">Película pendiente</string>
+    <string name="form_guardar">Guardar Película</string>
+
+    <!-- Perfil -->
     <string name="avatar_description">Avatar del usuario</string>
     <string name="user_name">Joaquin</string>
     <string name="user_role">Crítico de Cine</string>
