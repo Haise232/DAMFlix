@@ -1,4 +1,4 @@
-package com.example.damflix5.ui.screens
+package com.example.damflix6.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,11 +32,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.damflix5.R
-import com.example.damflix5.model.Pelicula
-import com.example.damflix5.model.peliculasIniciales
-import com.example.damflix5.ui.theme.DAMFlix5Theme
-import com.example.damflix5.ui.viewmodel.PeliculaViewModel
+import com.example.damflix6.R
+import com.example.damflix6.data.local.PeliculaEntity
+import com.example.damflix6.data.local.peliculasIniciales
+import com.example.damflix6.ui.theme.DAMFlix6Theme
+import com.example.damflix6.ui.viewmodel.PeliculaViewModel
 
 @Composable
 fun ListaPeliculasScreen(
@@ -54,8 +54,8 @@ fun ListaPeliculasScreen(
 
 @Composable
 fun ListaPeliculas(
-    peliculas: List<Pelicula>,
-    onToggleFavorito: (Pelicula) -> Unit,
+    peliculas: List<PeliculaEntity>,
+    onToggleFavorito: (PeliculaEntity) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (peliculas.isEmpty()) {
@@ -86,7 +86,7 @@ fun ListaPeliculas(
 
 @Composable
 fun TarjetaPeliculaGrid(
-    pelicula: Pelicula,
+    pelicula: PeliculaEntity,
     onFavoritoClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -151,7 +151,7 @@ fun TarjetaPeliculaGrid(
 @Preview(showBackground = true, widthDp = 180)
 @Composable
 fun TarjetaPeliculaGridPreview() {
-    DAMFlix5Theme {
+    DAMFlix6Theme {
         TarjetaPeliculaGrid(pelicula = peliculasIniciales.first(), onFavoritoClick = {})
     }
 }
@@ -159,7 +159,7 @@ fun TarjetaPeliculaGridPreview() {
 @Preview(showBackground = true, widthDp = 180)
 @Composable
 fun TarjetaPeliculaGridFavoritaPreview() {
-    DAMFlix5Theme {
+    DAMFlix6Theme {
         TarjetaPeliculaGrid(pelicula = peliculasIniciales.first().copy(esFavorita = true), onFavoritoClick = {})
     }
 }
@@ -167,7 +167,7 @@ fun TarjetaPeliculaGridFavoritaPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ListaPeliculasVaciaPreview() {
-    DAMFlix5Theme {
+    DAMFlix6Theme {
         ListaPeliculas(peliculas = emptyList(), onToggleFavorito = {})
     }
 }
@@ -175,7 +175,7 @@ fun ListaPeliculasVaciaPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ListaPeliculasPreview() {
-    DAMFlix5Theme {
+    DAMFlix6Theme {
         ListaPeliculas(peliculas = peliculasIniciales, onToggleFavorito = {})
     }
 }

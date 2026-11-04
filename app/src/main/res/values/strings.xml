@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">DAMFlix5</string>
-    <string name="titulo_app">DAMFlix - Catálogo</string>
+    <string name="app_name">DAMFlix6</string>
+    <string name="titulo_app">DAMFlix - Room</string>
+    <string name="drawer_cabecera">DAMFlix - Room ORM</string>
+    <string name="abrir_menu">Abrir menú</string>
 
     <!-- Navegación -->
     <string name="nav_inicio">Inicio</string>

@@ -22,5 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DAMFlix5"
+rootProject.name = "DAMFlix6"
 include(":app")
+ 

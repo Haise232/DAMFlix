@@ -1,4 +1,4 @@
-package com.example.damflix5.ui.screens
+package com.example.damflix6.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,8 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.damflix5.R
-import com.example.damflix5.ui.viewmodel.PeliculaViewModel
+import com.example.damflix6.R
+import com.example.damflix6.ui.viewmodel.PeliculaViewModel
 
 @Composable
 fun FormularioAgregarPeliculaScreen(
