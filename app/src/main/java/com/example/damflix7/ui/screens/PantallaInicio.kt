@@ -1,4 +1,4 @@
-package com.example.damflix6.ui.screens
+package com.example.damflix7.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,8 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.damflix6.R
-import com.example.damflix6.ui.theme.DAMFlix6Theme
+import com.example.damflix7.R
+import com.example.damflix7.ui.theme.DAMFlix7Theme
 
 @Composable
 fun PantallaInicio(
@@ -99,7 +99,7 @@ fun TarjetaEstadistica(titulo: String, valor: Int, modifier: Modifier = Modifier
 @Preview(showBackground = true)
 @Composable
 fun TarjetaEstadisticaPreview() {
-    DAMFlix6Theme {
+    DAMFlix7Theme {
         TarjetaEstadistica(titulo = stringResource(R.string.inicio_peliculas), valor = 8)
     }
 }
@@ -107,7 +107,7 @@ fun TarjetaEstadisticaPreview() {
 @Preview(showBackground = true)
 @Composable
 fun PantallaInicioPreview() {
-    DAMFlix6Theme {
+    DAMFlix7Theme {
         PantallaInicio(totalPeliculas = 8, totalFavoritas = 2, onVerCatalogo = {}, onAnadir = {})
     }
 }

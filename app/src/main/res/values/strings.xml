@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DAMFlix6</string>
+    <string name="app_name">DAMFlix7</string>
     <string name="titulo_app">DAMFlix - Room</string>
     <string name="drawer_cabecera">DAMFlix - Room ORM</string>
     <string name="abrir_menu">Abrir menú</string>
@@ -9,6 +9,7 @@
     <string name="nav_listado">Listado</string>
     <string name="nav_anadir">Añadir</string>
     <string name="nav_perfil">Perfil</string>
+    <string name="nav_detalle">Detalle</string>
 
     <!-- Pantalla de inicio -->
     <string name="inicio_bienvenida">Bienvenido a DAMFlix</string>
@@ -25,6 +26,17 @@
     <string name="genero_anio">%1$s • %2$d</string>
     <string name="estado_vista">Vista</string>
     <string name="estado_pendiente">Pendiente</string>
+
+    <!-- Detalle -->
+    <string name="detalle_volver">Volver al catálogo</string>
+    <string name="detalle_cargando">Cargando datos de la película...</string>
+    <string name="detalle_director">Director/a: %1$s</string>
+    <string name="detalle_anio">Año de estreno: %1$d</string>
+    <string name="detalle_genero">Género: %1$s</string>
+    <string name="detalle_estado">Estado: %1$s</string>
+    <string name="detalle_favorita">Está en tus favoritas</string>
+    <string name="detalle_sin_descripcion">Sin descripción</string>
+    <string name="detalle_error">Error: %1$s</string>
 
     <!-- Formulario -->
     <string name="form_titulo">Registrar Película</string>

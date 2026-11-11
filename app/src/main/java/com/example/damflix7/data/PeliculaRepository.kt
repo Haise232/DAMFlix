@@ -1,12 +1,14 @@
-package com.example.damflix6.data
+package com.example.damflix7.data
 
-import com.example.damflix6.data.local.PeliculaDao
-import com.example.damflix6.data.local.PeliculaEntity
+import com.example.damflix7.data.local.PeliculaDao
+import com.example.damflix7.data.local.PeliculaEntity
 import kotlinx.coroutines.flow.Flow
 
 class PeliculaRepository(private val dao: PeliculaDao) {
 
     val todasPeliculas: Flow<List<PeliculaEntity>> = dao.obtenerTodas()
+
+    suspend fun obtenerPorId(id: Int): PeliculaEntity? = dao.obtenerPorId(id)
 
     suspend fun insertar(pelicula: PeliculaEntity) = dao.insertar(pelicula)
 

@@ -1,4 +1,4 @@
-package com.example.damflix6.data.local
+package com.example.damflix7.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

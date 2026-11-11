@@ -1,4 +1,4 @@
-package com.example.damflix6.ui.screens
+package com.example.damflix7.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -28,8 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.damflix6.R
-import com.example.damflix6.ui.theme.DAMFlix6Theme
+import com.example.damflix7.R
+import com.example.damflix7.ui.theme.DAMFlix7Theme
 
 @Composable
 fun Perfil(
@@ -118,7 +118,7 @@ fun EstadisticaItem(texto: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun PerfilPreview() {
-    DAMFlix6Theme {
+    DAMFlix7Theme {
         Perfil(totalVistas = 3, totalFavoritas = 2)
     }
 }

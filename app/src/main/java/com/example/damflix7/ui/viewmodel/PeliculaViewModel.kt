@@ -1,9 +1,9 @@
-package com.example.damflix6.ui.viewmodel
+package com.example.damflix7.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.damflix6.data.PeliculaRepository
-import com.example.damflix6.data.local.PeliculaEntity
+import com.example.damflix7.data.PeliculaRepository
+import com.example.damflix7.data.local.PeliculaEntity
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn

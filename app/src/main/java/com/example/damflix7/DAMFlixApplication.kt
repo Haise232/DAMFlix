@@ -1,8 +1,8 @@
-package com.example.damflix6
+package com.example.damflix7
 
 import android.app.Application
-import com.example.damflix6.data.PeliculaRepository
-import com.example.damflix6.data.local.AppDatabase
+import com.example.damflix7.data.PeliculaRepository
+import com.example.damflix7.data.local.AppDatabase
 
 class DAMFlixApplication : Application() {
 
